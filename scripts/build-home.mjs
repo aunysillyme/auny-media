@@ -148,30 +148,27 @@ pendingIds([...ALBUMS, ...SINGLES]);
 const html = render(HOME_TPL, {
     OG_IMAGE: ogImage('home'),
   LATEST_URL: latestUrl,
-  // Pre-release, the cover art IS the pre-save button. Auny 2026-09-09:
-  // "clicking this pre-release should just take em to the pre-save link".
-  // The green play circle is Spotify's "this plays now" affordance and it
-  // promises something an unreleased track cannot deliver, so it is replaced
-  // rather than merely relinked.
-  LATEST_COVER_URL: latestUpcoming && latest.hyperfollowSlug
-    ? `https://distrokid.com/hyperfollow/auny1/${esc(latest.hyperfollowSlug)}`
-    : latestUrl,
-  LATEST_COVER_LINK_ATTRS: latestUpcoming && latest.hyperfollowSlug
-    ? ' target="_blank" rel="noopener"'
-    : '',
-  LATEST_COVER_LABEL: latestUpcoming && latest.hyperfollowSlug
-    ? `Pre-save ${esc(latest.title)}`
+  // The cover always goes to the release's own page, upcoming or not. Auny
+  // corrected this 2026-09-09: sending a pre-release click straight out to
+  // DistroKid skips the page carrying her note, the lyrics and the artwork,
+  // and the pre-save is one row below anyway.
+  //
+  // What DOES change while upcoming is the overlay. The green Spotify play
+  // circle promises playback an unreleased track cannot deliver, so it becomes
+  // a neutral arrow in the page accent. The date badge under the cover already
+  // says "coming", so the mark carries no word of its own.
+  LATEST_COVER_URL: latestUrl,
+  LATEST_COVER_LINK_ATTRS: '',
+  LATEST_COVER_LABEL: latestUpcoming
+    ? `View ${esc(latest.title)}`
     : `View ${esc(latest.title)} details`,
-  LATEST_COVER_OVERLAY: latestUpcoming && latest.hyperfollowSlug
+  LATEST_COVER_OVERLAY: latestUpcoming
     ? `<div class="featured-play-overlay" aria-hidden="true">
-            <div class="presave-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
-            <span class="presave-word">pre-save</span>
+            <div class="presave-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M12 5l7 7-7 7"/></svg></div>
           </div>`
     : `<div class="featured-play-overlay" aria-hidden="true">
             <div class="play-circle"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
           </div>`,
-
-  LATEST_COVER: latestCover,
   LATEST_PICTURE: coverPicture({ base: latestCover.replace(/\.jpg$/, ''), alt: `${esc(latest.title)} cover`, sizes: '(max-width:860px) 90vw, 460px', eager: true }),
   LATEST_TYPE: latestType,
   LATEST_SPOTIFY_URL: latestSpotifyUrl,
