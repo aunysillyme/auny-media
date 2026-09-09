@@ -160,6 +160,23 @@
     box-shadow: 0 8px 30px rgba(29,185,84,0.5);
   }
   .featured-play-overlay .play-circle svg { width: 28px; height: 28px; margin-left: 4px; }
+  /* Pre-release: the cover offers a PRE-SAVE, not a play. Same geometry as the
+     play overlay so the hover behaves identically, but it carries the page
+     accent and a plus, because a green play button on an unreleased track
+     promises something the click cannot deliver. */
+  .featured-play-overlay .presave-circle {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: var(--accent); color: #08070c;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 30px rgba(var(--accent-rgb), 0.5);
+  }
+  .featured-play-overlay .presave-circle svg { width: 30px; height: 30px; }
+  .featured-play-overlay .presave-word {
+    position: absolute; bottom: 18px; left: 0; right: 0; text-align: center;
+    font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 3px;
+    text-transform: uppercase; color: #fff;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.9);
+  }
   .listen-now {
     font-family: 'Patrick Hand', cursive;
     font-size: 22px; line-height: 1.2;
@@ -351,12 +368,10 @@
   <div class="featured">
     <span class="featured-label">{{LATEST_FEATURED_LABEL}}</span>
     <div class="featured-card">
-      <a class="featured-cover-link" href="{{LATEST_URL}}" aria-label="View {{LATEST_TITLE}} details">
+      <a class="featured-cover-link" href="{{LATEST_COVER_URL}}"{{LATEST_COVER_LINK_ATTRS}} aria-label="{{LATEST_COVER_LABEL}}">
         <div class="featured-cover">
           {{LATEST_PICTURE}}
-          <div class="featured-play-overlay" aria-hidden="true">
-            <div class="play-circle"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
-          </div>
+          {{LATEST_COVER_OVERLAY}}
         </div>
       </a>
       <div class="featured-meta">

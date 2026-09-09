@@ -265,34 +265,60 @@ picture { display: contents; }
   }
   @keyframes pulse-dot { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
 
-  /* An authored note from Auny. Deliberately quiet: a left rule and the page
-     accent, no card and no glow, so it reads as a statement rather than a
-     promo block. */
+  /* ─── Auny's note ──────────────────────────────────────────────────
+     Its own SECTION, not a block leaning on the lyrics. Three things keep
+     the two apart, because they are different kinds of writing and should
+     not look like one long column:
+       1. A tinted band with hairlines top and bottom, so it is bounded.
+       2. Outfit, a third type register. The meta rows are Space Mono and
+          the lyrics are Patrick Hand; a note set in either would read as
+          more of that thing rather than as Auny talking.
+       3. Left-aligned and measure-limited, against centred lyrics.
+  */
   .dedication {
-    position: relative; z-index: 4; text-align: left;
-    max-width: 760px; margin: 0 auto 8px; padding: 0 32px;
+    position: relative; z-index: 4;
+    margin: 8px 0 0; padding: 54px 24px 58px;
+    text-align: left;
+    background:
+      linear-gradient(180deg, rgba(var(--accent-rgb),0.055), rgba(var(--accent-rgb),0.015) 55%, rgba(0,0,0,0));
+    border-top: 1px solid rgba(var(--accent-rgb), 0.18);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
   }
-  .dedication-inner {
-    border-left: 2px solid rgba(var(--accent-rgb), 0.55);
-    padding: 4px 0 4px 22px;
+  .dedication-inner { max-width: 640px; margin: 0 auto; }
+  .dedication-eyebrow {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 3.5px;
+    text-transform: uppercase; color: rgba(var(--accent-rgb), 0.9);
+    margin: 0 0 22px;
+  }
+  .dedication-eyebrow::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(90deg, rgba(var(--accent-rgb),0.4), transparent);
   }
   .dedication-heading {
-    font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 3px;
-    text-transform: uppercase; color: var(--accent);
-    margin: 0 0 14px;
+    font-family: 'Outfit', sans-serif; font-weight: 700;
+    font-size: clamp(22px, 3vw, 30px); line-height: 1.2; letter-spacing: -0.4px;
+    color: #fff; margin: 0 0 20px;
   }
   .dedication p {
-    font-family: 'Space Mono', monospace; font-size: 14px; line-height: 1.85;
-    color: rgba(255,255,255,0.82); margin: 0 0 14px; max-width: 62ch;
+    font-family: 'Outfit', sans-serif; font-weight: 400;
+    font-size: 16px; line-height: 1.75;
+    color: rgba(255,255,255,0.74);
+    margin: 0 0 16px;
+  }
+  /* The opening line carries the weight, so it gets the size and the colour. */
+  .dedication p:first-of-type {
+    font-size: 19px; line-height: 1.65; color: rgba(255,255,255,0.94);
   }
   .dedication-sig {
     font-family: 'Patrick Hand', cursive !important;
-    font-size: 20px !important; color: var(--accent) !important;
-    margin-top: 4px !important;
+    font-size: 26px !important; color: var(--accent) !important;
+    margin: 26px 0 0 !important;
   }
   @media (max-width: 760px) {
-    .dedication { padding: 0 20px; }
-    .dedication p { font-size: 13px; }
+    .dedication { padding: 40px 20px 44px; }
+    .dedication p { font-size: 15px; }
+    .dedication p:first-of-type { font-size: 17px; }
   }
 
   /* ─── Shared player container ──────────────────────────────────────────────
@@ -1240,9 +1266,10 @@ picture { display: contents; }
   </div>
 </section>
 
-<section class="dedication" aria-label="Why September 11, 8:46 AM">
+<section class="dedication" aria-label="A note from Auny">
     <div class="dedication-inner">
-      <p class="dedication-heading">Why September 11, 8:46 AM</p>
+      <p class="dedication-eyebrow">a note from auny</p>
+      <h2 class="dedication-heading">Why September 11, 8:46 AM</h2>
       <p>I am from New York. I am releasing this song on September 11 at 8:46 in the morning.</p>
       <p>I did not write it about that day. I wrote it about how the worst thing and the most ordinary thing keep happening at the same time, and how nobody gets to choose which one arrives first. Then I read it back and understood which morning it sounded like.</p>
       <p>It goes out at 8:46 because that is when an ordinary Tuesday stopped being ordinary. For everybody who was here, and everybody who was not.</p>

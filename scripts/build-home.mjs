@@ -148,6 +148,29 @@ pendingIds([...ALBUMS, ...SINGLES]);
 const html = render(HOME_TPL, {
     OG_IMAGE: ogImage('home'),
   LATEST_URL: latestUrl,
+  // Pre-release, the cover art IS the pre-save button. Auny 2026-09-09:
+  // "clicking this pre-release should just take em to the pre-save link".
+  // The green play circle is Spotify's "this plays now" affordance and it
+  // promises something an unreleased track cannot deliver, so it is replaced
+  // rather than merely relinked.
+  LATEST_COVER_URL: latestUpcoming && latest.hyperfollowSlug
+    ? `https://distrokid.com/hyperfollow/auny1/${esc(latest.hyperfollowSlug)}`
+    : latestUrl,
+  LATEST_COVER_LINK_ATTRS: latestUpcoming && latest.hyperfollowSlug
+    ? ' target="_blank" rel="noopener"'
+    : '',
+  LATEST_COVER_LABEL: latestUpcoming && latest.hyperfollowSlug
+    ? `Pre-save ${esc(latest.title)}`
+    : `View ${esc(latest.title)} details`,
+  LATEST_COVER_OVERLAY: latestUpcoming && latest.hyperfollowSlug
+    ? `<div class="featured-play-overlay" aria-hidden="true">
+            <div class="presave-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
+            <span class="presave-word">pre-save</span>
+          </div>`
+    : `<div class="featured-play-overlay" aria-hidden="true">
+            <div class="play-circle"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>`,
+
   LATEST_COVER: latestCover,
   LATEST_PICTURE: coverPicture({ base: latestCover.replace(/\.jpg$/, ''), alt: `${esc(latest.title)} cover`, sizes: '(max-width:860px) 90vw, 460px', eager: true }),
   LATEST_TYPE: latestType,

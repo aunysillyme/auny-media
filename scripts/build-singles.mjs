@@ -63,9 +63,10 @@ function dedicationFor(single) {
   const d = single.dedication;
   if (!d || !Array.isArray(d.body) || d.body.length === 0) return '';
   const paras = d.body.map((line) => `      <p>${escHtml(line)}</p>`).join('\n');
-  return `<section class="dedication" aria-label="${escAttr(d.heading || 'Note')}">
+  return `<section class="dedication" aria-label="A note from Auny">
     <div class="dedication-inner">
-      <p class="dedication-heading">${escHtml(d.heading || '')}</p>
+      <p class="dedication-eyebrow">a note from auny</p>
+      <h2 class="dedication-heading">${escHtml(d.heading || '')}</h2>
 ${paras}
       <p class="dedication-sig">Auny</p>
     </div>
