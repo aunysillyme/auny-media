@@ -40,12 +40,17 @@ const RELEASED_SINGLES = SINGLES.filter((s) => isReleased(s, TODAY_ISO));
 // depending on someone remembering to unset a flag. Shared with the album page
 // and the /albums card via _lib, so all three cannot drift apart again.
 const teaserAlbum = ALBUMS.find((a) => isLiveTeaser(a, TODAY_ISO));
+// A teasing SINGLE can hold the hero too. Before this, only albums could, so a
+// single releasing in two days was invisible on the homepage while its own page
+// said "coming soon" - the two surfaces disagreed. An album teaser still wins
+// if both exist, because an album is the larger release.
+const teaserSingle = teaserAlbum ? null : SINGLES.find((s) => isLiveTeaser(s, TODAY_ISO));
 const relAlbum = RELEASED_ALBUMS[0];
 const relSingle = RELEASED_SINGLES[0];
 const releasedIsAlbum = relAlbum.releaseDate >= relSingle.releaseDate;
-const latest = teaserAlbum || (releasedIsAlbum ? relAlbum : relSingle);
-const latestIsAlbum = !!teaserAlbum || releasedIsAlbum;
-const latestTeaser = !!teaserAlbum;
+const latest = teaserAlbum || teaserSingle || (releasedIsAlbum ? relAlbum : relSingle);
+const latestIsAlbum = teaserAlbum ? true : (teaserSingle ? false : releasedIsAlbum);
+const latestTeaser = !!teaserAlbum || !!teaserSingle;
 const latestUrl = latestIsAlbum ? `/albums/${latest.slug}` : `/singles/${latest.slug}`;
 const latestCover = latestIsAlbum ? `/album-art/${latest.slug}.jpg` : singleCoverPath(latest.slug);
 const latestType = latestIsAlbum ? 'Album' : 'Single';

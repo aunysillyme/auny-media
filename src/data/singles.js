@@ -36,6 +36,74 @@ export const COLOR_TYPE_INFO = {
 
 export const SINGLES = [
   {
+    slug: 'perfect-world',
+    title: 'Perfect World',
+    // Rebel is the street artist who paints the record. Copy in src/data/characters.js.
+    character: 'Rebel',
+    releaseDate: '2026-09-11',
+    releaseDisplay: 'September 11, 2026',
+    // Holds the homepage hero until the release lands. isLiveTeaser() drops it
+    // automatically the moment releaseDate passes, so this flag cannot go stale.
+    teaser: true,
+    // The release time is deliberate and is the reason the dedication below
+    // exists. It is not display data; it is the point.
+    releaseTime: '8:46 AM ET',
+    year: 2026,
+    spotifyTrackId: '',
+    hyperfollowSlug: 'perfect-world',
+    platforms: {},
+    genre: 'Folk \u00b7 Singer-Songwriter \u00b7 Dark Acoustic Protest',
+    era: 3,
+    colorSeries: null,
+    emoji: '',
+    accent: { color: '#E8912C', rgb: '232,145,44' },
+    themes: 'Eight stanzas that each hold a good thing and a bad thing happening at the same moment, and refuse to resolve them. The record ends by saying the perfect world does not exist',
+    anchorLyric: 'in a perfect world, when it all seems ok, they start a war',
+    dedication: {
+      heading: 'Why September 11, 8:46 AM',
+      body: [
+        'I am from New York. I am releasing this song on September 11 at 8:46 in the morning.',
+        'I did not write it about that day. I wrote it about how the worst thing and the most ordinary thing keep happening at the same time, and how nobody gets to choose which one arrives first. Then I read it back and understood which morning it sounded like.',
+        'It goes out at 8:46 because that is when an ordinary Tuesday stopped being ordinary. For everybody who was here, and everybody who was not.',
+      ],
+    },
+    lyrics: `in a perfect world,
+when it seems like it's all in place,
+a wildfire appears
+
+in a perfect world,
+when it all seems ok,
+they start a war
+
+in a perfect world,
+when the rainbow appears
+there's a tornado nearby
+
+in a perfect world,
+when the sun shines bright
+it appears to be a gloomy night
+
+in a perfect world
+when the sirens are howling at the moon
+a new life is born
+
+in a perfect world
+when you and i fight
+wedding bells toll somewhere
+
+in a perfect world
+when the hands of an addict won't stop trembling
+somebody's being awarded a five year chip
+
+in a perfect world
+when you're crying in a parking lot
+somebody across town just hit the lottery
+
+in a perfect world..
+i guess all i'm trying to say is...
+there's no such thing as a perfect world.`,
+  },
+  {
     slug: 'mechanical-screen',
     title: 'Mechanical Screen',
     // Annalise is the body in the song. Copy in src/data/characters.js.

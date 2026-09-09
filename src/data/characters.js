@@ -33,6 +33,21 @@ export const CHARACTERS = {
     arc: 'observation, not verdict',
   },
 
+  // Rebel carries Perfect World. She is the only one of the four who MAKES the
+  // art the record is about, which is why her block reads as craft rather than
+  // interiority. Full canon (likeness, wardrobe, the generation prompts) stays
+  // in the vault; this is the public half.
+  Rebel: {
+    name: 'Rebel',
+    role: 'the one painting the wall',
+    story: [
+      'A street artist working at night, after rain, in parking lots and underpasses and on subway platforms. Every mark in this record\u2019s world is hers, and the cobalt-blue paint on her face and hands is how you know it.',
+      'She does not narrate the song, she illustrates it. Each stanza pairs a good thing with a bad one happening at the same moment, and her job is to paint the good half onto a world delivering the other half behind her: a rainbow sprayed on a rooftop while a tornado closes in; her crying on a kerb while a lit window across town holds two people celebrating, the two joined by a trail of her own blue paint.',
+      'Her register is weary defiance, not triumph. She keeps painting and it keeps getting painted over. The last line of the song is \u201cthere\u2019s no such thing as a perfect world\u201d, and her answer to it is to sit on a bench and watch a council worker roller flat grey across her mural, one stencilled bird escaping the edge.',
+    ],
+    arc: 'keeps painting anyway',
+  },
+
   Caelle: {
     name: 'Caelle',
     role: 'the figure in all nineteen tracks',

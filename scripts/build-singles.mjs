@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
 import { SINGLES, COLOR_SERIES, COLOR_SERIES_ORDER, COLOR_TYPE_INFO, colorSeriesMembers } from '../src/data/singles.js';
 import { SINGLE_NOTES } from '../src/data/singles-notes.js';
-import { navFor, esc, jsonLd, NAV_CSS, PLAYER_CSS, FOOTER_CSS, FOOTER_HTML, COLOR_CHIPS_CSS, LISTEN_ROW_CSS, SERIES_CARD_CSS, SIGNUP_HTML, SIGNUP_CSS, SIGNUP_JS, RECENT_STRIP_CSS, playerFor, footerFor, colorChipsFor, recentStripFor, registerColorTypeInfo, singleCoverPath, seriesBadge, singleGenreHead, listenRowFor, platformUrls, coverPicture, CHARACTER_CSS, characterSectionFor , ogImage} from './_lib.mjs';
+import { navFor, esc, jsonLd, NAV_CSS, PLAYER_CSS, FOOTER_CSS, FOOTER_HTML, COLOR_CHIPS_CSS, LISTEN_ROW_CSS, SERIES_CARD_CSS, SIGNUP_HTML, SIGNUP_CSS, SIGNUP_JS, RECENT_STRIP_CSS, isUpcoming, presaveRowFor, todayISO, playerFor, footerFor, colorChipsFor, recentStripFor, registerColorTypeInfo, singleCoverPath, seriesBadge, singleGenreHead, listenRowFor, platformUrls, coverPicture, CHARACTER_CSS, characterSectionFor , ogImage} from './_lib.mjs';
 
 registerColorTypeInfo(COLOR_TYPE_INFO);
 
@@ -15,6 +15,10 @@ const tpl = (name) => readFileSync(join(root, 'templates', name), 'utf8');
 
 const SINGLE_TPL = tpl('single.html');
 const LIST_TPL = tpl('singles-list.html');
+
+// One date for the whole run, so a build that straddles midnight cannot render
+// one page as upcoming and the next as released.
+const TODAY_ISO = todayISO();
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -51,13 +55,33 @@ function bgHueFor(single) {
   return 200;
 }
 
-function heroLabelFor(single) {
+// An optional authored note under the hero. It exists for Perfect World, whose
+// release date and minute are a deliberate choice rather than a schedule slot,
+// and the page has to say so in Auny's own words or not at all. Paragraphs come
+// from the data layer so the copy is reviewable as copy, never buried in markup.
+function dedicationFor(single) {
+  const d = single.dedication;
+  if (!d || !Array.isArray(d.body) || d.body.length === 0) return '';
+  const paras = d.body.map((line) => `      <p>${escHtml(line)}</p>`).join('\n');
+  return `<section class="dedication" aria-label="${escAttr(d.heading || 'Note')}">
+    <div class="dedication-inner">
+      <p class="dedication-heading">${escHtml(d.heading || '')}</p>
+${paras}
+      <p class="dedication-sig">Auny</p>
+    </div>
+  </section>`;
+}
+
+function heroLabelFor(single, upcoming = false) {
+  // A pre-release page must never read like a released one. The suffix is the
+  // only thing separating "single" from "single, out in two days" in the hero.
+  const suffix = upcoming ? ' \u00b7 coming soon' : '';
   if (single.colorSeries === 'member') {
     const meta = COLOR_SERIES.find((c) => c.slug === single.slug);
     const tag = meta?.type === 'outlier' ? 'outlier' : 'rainbow';
-    return `${single.emoji} &nbsp; single · color series · ${tag}`;
+    return `${single.emoji} &nbsp; single · color series · ${tag}${suffix}`;
   }
-  return '✦ &nbsp; single';
+  return `✦ &nbsp; single${suffix}`;
 }
 
 function seriesBlockFor(single) {
@@ -100,7 +124,24 @@ function renderSingle(single) {
   const noteSchema = notes.note
     ? `\n  "description": ${jsonLd(notes.note)},`
     : '';
+  const upcoming = isUpcoming(single, TODAY_ISO);
   const replacements = {
+    // ─── Pre-release ────────────────────────────────────────────────────
+    // Until today, only ALBUM pages could render a coming-soon state; a
+    // future-dated single rendered exactly like a released one, with a dead
+    // player and an empty chip row and nothing saying why. releaseStatus() was
+    // always generic, the singles builder just never asked it.
+    UPCOMING_BANNER: upcoming
+      ? `<p class="upcoming-banner"><span class="dot"></span> Out ${escHtml(single.releaseDisplay)}${single.releaseTime ? ` · ${escHtml(single.releaseTime)}` : ''}</p>`
+      : '',
+    DEDICATION: dedicationFor(single),
+    // "Released September 11" on a page for a track that is not out is a plain
+    // factual error, and it appeared in the meta row AND the meta description.
+    RELEASE_KEY: upcoming ? 'Releases' : 'Released',
+    RELEASE_SENTENCE: upcoming
+      ? `Out ${escHtml(single.releaseDisplay)}${single.releaseTime ? ` at ${escHtml(single.releaseTime)}` : ''}.`
+      : `Released ${escHtml(single.releaseDisplay)}.`,
+
     CHARACTER_SECTION: characterSectionFor(single),
     CHARACTER_CSS,
     TEMPO_META_ROW: tempoMetaRow,
@@ -121,10 +162,14 @@ function renderSingle(single) {
     // Omitted entirely until the id exists, rather than linking to ".../track/".
 
     HYPERFOLLOW_SLUG: single.hyperfollowSlug,
-    LISTEN_ROW: listenRowFor(single, {
-      spotifyUrl: single.spotifyTrackId ? `https://open.spotify.com/track/${single.spotifyTrackId}` : '',
-      hyperfollowSlug: single.hyperfollowSlug,
-    }),
+    // Pre-release the ONLY control is the pre-save; a chip row of platforms
+    // that cannot play it yet is worse than no row.
+    LISTEN_ROW: upcoming
+      ? presaveRowFor(single.hyperfollowSlug, { label: 'pre-save on spotify' })
+      : listenRowFor(single, {
+          spotifyUrl: single.spotifyTrackId ? `https://open.spotify.com/track/${single.spotifyTrackId}` : '',
+          hyperfollowSlug: single.hyperfollowSlug,
+        }),
     // Same rule as albums: no link against an empty id. Singles get released
     // immediately, which is exactly when the Spotify id does not exist yet, so
     // this is the likeliest place to reproduce the flatline dead-link bug.
@@ -138,7 +183,7 @@ function renderSingle(single) {
     ACCENT_COLOR: single.accent.color,
     ACCENT_RGB: single.accent.rgb,
     BG_HUE: String(bgHueFor(single)),
-    HERO_LABEL: heroLabelFor(single),
+    HERO_LABEL: heroLabelFor(single, upcoming),
     SERIES_BLOCK: seriesBlockFor(single),
     LYRICS_HTML: lyricsToStanzas(single.lyrics, single.anchorLyric),
     LYRICS_JSON: lyricsToJsonText(single.lyrics),
@@ -147,7 +192,9 @@ function renderSingle(single) {
     PLAYER_CSS: PLAYER_CSS,
     // Disabled facade until the id exists — an empty id yields ".../embed/track/?"
     // which renders a Spotify error inside the page.
-    PLAYER_HTML: playerFor({ kind: 'track', id: single.spotifyTrackId || '', title: single.title, cover: singleCoverPath(single.slug).replace(/\.jpg$/, '-640.webp'), disabled: !single.spotifyTrackId }),
+    // Nothing to play before release: omit the facade rather than ship a
+    // disabled one, which reads as broken rather than as forthcoming.
+    PLAYER_HTML: upcoming ? '' : playerFor({ kind: 'track', id: single.spotifyTrackId || '', title: single.title, cover: singleCoverPath(single.slug).replace(/\.jpg$/, '-640.webp'), disabled: !single.spotifyTrackId }),
     FOOTER_CSS: FOOTER_CSS,
     FOOTER_HTML: footerFor({ releaseDisplay: single.releaseDisplay }),
     COLOR_CHIPS_CSS: COLOR_CHIPS_CSS,
@@ -173,7 +220,7 @@ function cardHtml(single, opts = {}) {
 ${badge}        <div class="cover">${coverPicture({ base: singleCoverPath(single.slug).replace(/\.jpg$/, ''), alt: `${escAttr(single.title)} cover`, sizes: '(max-width:720px) 45vw, 240px' })}</div>
         <div class="body">
           <div class="card-title">${escHtml(single.title)}</div>
-          <div class="card-meta">${escHtml(single.releaseDisplay)}</div>
+          <div class="card-meta">${isUpcoming(single, TODAY_ISO) ? `Coming ${escHtml(single.releaseDisplay)}` : escHtml(single.releaseDisplay)}</div>
         </div>
       </a>`;
 }

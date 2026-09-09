@@ -244,6 +244,57 @@ picture { display: contents; }
     font-family: 'Space Mono', monospace; font-size: 12.5px; line-height: 1.5; color: var(--text-soft);
   }
 
+  /* Pre-release banner. Mirrors .upcoming-banner in album.html so an upcoming
+     single and an upcoming album read identically. */
+  .upcoming-banner {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 12px; margin: 0 0 14px;
+    border-radius: 999px;
+    background: rgba(var(--accent-rgb), 0.12);
+    border: 1px solid rgba(var(--accent-rgb), 0.5);
+    color: var(--accent);
+    font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 3px;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px rgba(var(--accent-rgb), 0.55);
+    box-shadow: 0 0 18px rgba(var(--accent-rgb), 0.15);
+  }
+  .upcoming-banner .dot {
+    width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+    animation: pulse-dot 1.4s ease-in-out infinite;
+  }
+  @keyframes pulse-dot { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+  /* An authored note from Auny. Deliberately quiet: a left rule and the page
+     accent, no card and no glow, so it reads as a statement rather than a
+     promo block. */
+  .dedication {
+    position: relative; z-index: 4; text-align: left;
+    max-width: 760px; margin: 0 auto 8px; padding: 0 32px;
+  }
+  .dedication-inner {
+    border-left: 2px solid rgba(var(--accent-rgb), 0.55);
+    padding: 4px 0 4px 22px;
+  }
+  .dedication-heading {
+    font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--accent);
+    margin: 0 0 14px;
+  }
+  .dedication p {
+    font-family: 'Space Mono', monospace; font-size: 14px; line-height: 1.85;
+    color: rgba(255,255,255,0.82); margin: 0 0 14px; max-width: 62ch;
+  }
+  .dedication-sig {
+    font-family: 'Patrick Hand', cursive !important;
+    font-size: 20px !important; color: var(--accent) !important;
+    margin-top: 4px !important;
+  }
+  @media (max-width: 760px) {
+    .dedication { padding: 0 20px; }
+    .dedication p { font-size: 13px; }
+  }
+
   /* ─── Shared player container ──────────────────────────────────────────────
    Used on single + album pages. Wraps a Spotify embed iframe with a
    cassette-style accent strip + "now playing" indicator. Iframe height
@@ -1133,6 +1184,7 @@ picture { display: contents; }
 <section class="hero">
   <div class="hero-left">
     <p class="hero-label">✦ &nbsp; single</p>
+    
     <h1 class="hero-title">Story of You</h1>
     <p class="hero-byline">Auny &nbsp;·&nbsp; 2026</p>
 
@@ -1236,9 +1288,12 @@ picture { display: contents; }
   </div>
 </section>
 
+
+
 <section class="lyrics-section" aria-label="Lyrics">
   <div class="lyrics-divider">lyrics</div>
   <article class="lyrics-body">
+
     <p>Dear diary,<br>tonight I confess<br>There's a shadow in me<br>I can't suppress<br>It whispers softly,<br>It cuts so deep<br>&quot;Everyone's better, you're nothing to keep&quot;</p>
     <p>But in the quiet,<br>A voice breaks through<br>Warm and gentle,<br>It feels like truth</p>
     <p>And it says:<br>You're you<br>Be proud of you<br>No one else could ever be you<br>The way your heart beats,<br>The way you shine<br><span class="accent">You're a story only you can write</span></p>
@@ -1264,6 +1319,13 @@ picture { display: contents; }
 <section class="recent-strip" aria-label="More recent releases">
   <p class="recent-strip-label">more recent releases →</p>
   <div class="recent-strip-row">
+    <a class="mini-card" href="/singles/perfect-world">
+      <div class="cover"><img src="/album-art/singles/perfect-world.jpg" alt="Perfect World cover" loading="lazy" width="640" height="640"></div>
+      <div class="body">
+        <div class="mini-card-title">Perfect World</div>
+        <div class="mini-card-meta">September 11, 2026</div>
+      </div>
+    </a>
     <a class="mini-card" href="/singles/mechanical-screen">
       <div class="cover"><img src="/album-art/singles/mechanical-screen.jpg" alt="Mechanical Screen cover" loading="lazy" width="640" height="640"></div>
       <div class="body">
@@ -1283,13 +1345,6 @@ picture { display: contents; }
       <div class="body">
         <div class="mini-card-title">Let Go</div>
         <div class="mini-card-meta">May 16, 2026</div>
-      </div>
-    </a>
-    <a class="mini-card" href="/singles/pink">
-      <div class="cover"><img src="/album-art/singles/pink.jpg" alt="PINK cover" loading="lazy" width="640" height="640"></div>
-      <div class="body">
-        <div class="mini-card-title">PINK</div>
-        <div class="mini-card-meta">May 4, 2026</div>
       </div>
     </a>
   </div>
