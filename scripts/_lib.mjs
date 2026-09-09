@@ -454,6 +454,40 @@ export function singleCoverPath(slug) {
   return `/album-art/singles/${slug}.${ext}`;
 }
 
+// Actual pixel dimensions of a cover, read from the file's own header.
+//
+// og:image:width / og:image:height were hardcoded to 640 on every album and
+// single page. That was true for 36 of 38 covers and a lie for the other two
+// (perfect-world at 1080, dreams-instrumental at 1221), and swapping in a
+// different constant would just relocate the lie. Scrapers read the real file,
+// so a wrong value here is cosmetic rather than breaking, but a number the
+// page states about itself should be true.
+//
+// Parsed synchronously rather than via sharp: sharp is async-only and the
+// builders are synchronous, and a JPEG SOF header is a dozen lines to walk.
+// Falls back to 640 if the file is missing or is not a JPEG we can read, which
+// keeps the previous behaviour rather than emitting nothing.
+export function coverDimensions(publicRelPath, fallback = 640) {
+  const full = join(root, 'public', publicRelPath.replace(/^\//, ''));
+  try {
+    const buf = readFileSync(full);
+    if (buf[0] !== 0xff || buf[1] !== 0xd8) return { width: fallback, height: fallback };
+    let i = 2;
+    while (i < buf.length - 9) {
+      if (buf[i] !== 0xff) { i++; continue; }
+      const marker = buf[i + 1];
+      // SOF0..SOF15 carry the frame size. C4 (DHT), C8 (JPG) and CC (DAC) do not.
+      if (marker >= 0xc0 && marker <= 0xcf && marker !== 0xc4 && marker !== 0xc8 && marker !== 0xcc) {
+        return { height: buf.readUInt16BE(i + 5), width: buf.readUInt16BE(i + 7) };
+      }
+      i += 2 + buf.readUInt16BE(i + 2);
+    }
+  } catch {
+    // Missing file or unreadable header: fall through to the old constant.
+  }
+  return { width: fallback, height: fallback };
+}
+
 export function writeOut(relPath, content) {
   const full = join(root, 'public', relPath);
   mkdirSync(dirname(full), { recursive: true });

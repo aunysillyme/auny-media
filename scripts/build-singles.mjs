@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
 import { SINGLES, COLOR_SERIES, COLOR_SERIES_ORDER, COLOR_TYPE_INFO, colorSeriesMembers } from '../src/data/singles.js';
 import { SINGLE_NOTES } from '../src/data/singles-notes.js';
-import { navFor, esc, jsonLd, NAV_CSS, PLAYER_CSS, FOOTER_CSS, FOOTER_HTML, COLOR_CHIPS_CSS, LISTEN_ROW_CSS, SERIES_CARD_CSS, SIGNUP_HTML, SIGNUP_CSS, SIGNUP_JS, RECENT_STRIP_CSS, isUpcoming, presaveRowFor, todayISO, playerFor, footerFor, colorChipsFor, recentStripFor, registerColorTypeInfo, singleCoverPath, seriesBadge, singleGenreHead, listenRowFor, platformUrls, coverPicture, CHARACTER_CSS, characterSectionFor , ogImage} from './_lib.mjs';
+import { navFor, esc, jsonLd, NAV_CSS, PLAYER_CSS, FOOTER_CSS, FOOTER_HTML, COLOR_CHIPS_CSS, LISTEN_ROW_CSS, SERIES_CARD_CSS, SIGNUP_HTML, SIGNUP_CSS, SIGNUP_JS, RECENT_STRIP_CSS, coverDimensions, isUpcoming, presaveRowFor, todayISO, playerFor, footerFor, colorChipsFor, recentStripFor, registerColorTypeInfo, singleCoverPath, seriesBadge, singleGenreHead, listenRowFor, platformUrls, coverPicture, CHARACTER_CSS, characterSectionFor , ogImage} from './_lib.mjs';
 
 registerColorTypeInfo(COLOR_TYPE_INFO);
 
@@ -154,6 +154,10 @@ function renderSingle(single) {
     YEAR: String(single.year),
     SLUG: single.slug,
     COVER_EXT: singleCoverPath(single.slug).endsWith('.jpg') ? 'jpg' : 'svg',
+    // Read from the file, not assumed: 640 was hardcoded here and is wrong for
+    // any cover that is not 640, which is now two of them.
+    OG_IMAGE_W: String(coverDimensions(singleCoverPath(single.slug)).width),
+    OG_IMAGE_H: String(coverDimensions(singleCoverPath(single.slug)).height),
     RELEASE_DISPLAY: escHtml(single.releaseDisplay),
     RELEASE_ISO: single.releaseDate,
     GENRE: escHtml(single.genre),
