@@ -49,9 +49,11 @@ export const SINGLES = [
     // exists. It is not display data; it is the point.
     releaseTime: '8:46 AM ET',
     year: 2026,
-    spotifyTrackId: '',
+    spotifyTrackId: '3hbxMeOfIDhnCIK7RNMx5d',
     hyperfollowSlug: 'perfect-world',
-    platforms: {},
+    platforms: {
+      appleMusic: 'https://music.apple.com/us/album/perfect-world/6810355910',
+    },
     genre: 'Folk \u00b7 Singer-Songwriter \u00b7 Dark Acoustic Protest',
     era: 3,
     colorSeries: null,
