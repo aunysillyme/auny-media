@@ -53,6 +53,8 @@ export const SINGLES = [
     hyperfollowSlug: 'perfect-world',
     platforms: {
       appleMusic: 'https://music.apple.com/us/album/perfect-world/6810355910',
+      tidal: 'https://tidal.com/track/559791913',
+      youtubeMusic: 'https://music.youtube.com/watch?v=3-HuKDuUrXs',
     },
     genre: 'Folk \u00b7 Singer-Songwriter \u00b7 Dark Acoustic Protest',
     era: 3,
