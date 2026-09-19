@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
 import { SINGLES, COLOR_SERIES, COLOR_SERIES_ORDER, COLOR_TYPE_INFO, colorSeriesMembers } from '../src/data/singles.js';
 import { SINGLE_NOTES } from '../src/data/singles-notes.js';
-import { navFor, esc, jsonLd, NAV_CSS, PLAYER_CSS, FOOTER_CSS, FOOTER_HTML, COLOR_CHIPS_CSS, LISTEN_ROW_CSS, SERIES_CARD_CSS, SIGNUP_HTML, SIGNUP_CSS, SIGNUP_JS, RECENT_STRIP_CSS, coverDimensions, isUpcoming, presaveRowFor, todayISO, playerFor, footerFor, colorChipsFor, recentStripFor, registerColorTypeInfo, singleCoverPath, seriesBadge, singleGenreHead, listenRowFor, platformUrls, coverPicture, CHARACTER_CSS, characterSectionFor , ogImage} from './_lib.mjs';
+import { navFor, esc, jsonLd, NAV_CSS, PLAYER_CSS, FOOTER_CSS, FOOTER_HTML, COLOR_CHIPS_CSS, LISTEN_ROW_CSS, SHARE_ROW_CSS, SHARE_ROW_JS, shareRowFor, GA_HEAD, SERIES_CARD_CSS, SIGNUP_HTML, SIGNUP_CSS, SIGNUP_JS, RECENT_STRIP_CSS, coverDimensions, isUpcoming, presaveRowFor, todayISO, playerFor, footerFor, colorChipsFor, recentStripFor, registerColorTypeInfo, singleCoverPath, seriesBadge, singleGenreHead, listenRowFor, platformUrls, coverPicture, CHARACTER_CSS, characterSectionFor , ogImage} from './_lib.mjs';
 
 registerColorTypeInfo(COLOR_TYPE_INFO);
 
@@ -204,12 +204,17 @@ function renderSingle(single) {
     FOOTER_HTML: footerFor({ releaseDisplay: single.releaseDisplay }),
     COLOR_CHIPS_CSS: COLOR_CHIPS_CSS,
     LISTEN_ROW_CSS: LISTEN_ROW_CSS,
+    SHARE_ROW: shareRowFor({
+      slug: single.slug,
+      title: single.title, kind: 'single', upcoming, releaseDisplay: single.releaseDisplay,
+    }),
+    SHARE_ROW_CSS, SHARE_ROW_JS, GA_HEAD,
     SIGNUP_HTML, SIGNUP_CSS, SIGNUP_JS,
     RECENT_STRIP_CSS,
     RECENT_STRIP_HTML: recentStripFor({ all: SINGLES, currentSlug: single.slug, kind: 'single' }),
   };
   return Object.entries(replacements).reduce(
-    (html, [key, val]) => html.replaceAll(`{{${key}}}`, val),
+    (html, [key, val]) => html.replaceAll(`{{${key}}}`, () => val),
     SINGLE_TPL
   );
 }
@@ -279,6 +284,7 @@ function renderList() {
 
   return LIST_TPL
     .replaceAll('{{OG_IMAGE}}', ogImage('singles'))
+    .replaceAll('{{GA_HEAD}}', () => GA_HEAD)
     .replaceAll('{{SERIES_CARDS}}', seriesCards)
     .replaceAll('{{ALL_CARDS}}', allCards)
     .replaceAll('{{TOTAL_SINGLES}}', String(SINGLES.length))

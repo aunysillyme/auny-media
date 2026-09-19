@@ -3,7 +3,7 @@
 
 import { ALBUMS, ringsFor } from '../src/data/albums.js';
 import { ALBUM_NOTES } from '../src/data/album-notes.js';
-import { tpl, navFor, esc, jsonLd, writeOut, render, NAV_CSS, PLAYER_CSS, FOOTER_CSS, LISTEN_CSS, LISTEN_ROW_CSS, SIGNUP_HTML, SIGNUP_CSS, SIGNUP_JS, playerFor, footerFor, albumGenreHead, listenRowFor, platformUrls, coverPicture, coverDimensions, todayISO, isUpcoming as isUpcomingFn, isLiveTeaser, pendingIds, safeUrl, CHARACTER_CSS, characterSectionFor, RECENT_STRIP_CSS, recentStripFor , ogImage} from './_lib.mjs';
+import { tpl, navFor, esc, jsonLd, writeOut, render, NAV_CSS, PLAYER_CSS, FOOTER_CSS, LISTEN_CSS, LISTEN_ROW_CSS, SHARE_ROW_CSS, SHARE_ROW_JS, shareRowFor, SIGNUP_HTML, SIGNUP_CSS, SIGNUP_JS, playerFor, footerFor, albumGenreHead, listenRowFor, platformUrls, coverPicture, coverDimensions, todayISO, isUpcoming as isUpcomingFn, isLiveTeaser, pendingIds, safeUrl, CHARACTER_CSS, characterSectionFor, RECENT_STRIP_CSS, recentStripFor , ogImage} from './_lib.mjs';
 import { join } from 'node:path';
 
 // "The Making" + enriched tracklist — rendered only for albums with a notes entry.
@@ -253,6 +253,11 @@ function renderAlbum(album) {
     FOOTER_HTML: footerFor({ releaseDisplay: album.releaseDisplay }),
     LISTEN_CSS: LISTEN_CSS,
     LISTEN_ROW_CSS: LISTEN_ROW_CSS,
+    SHARE_ROW: shareRowFor({
+      slug: album.slug,
+      title: album.title, kind: 'album', upcoming, releaseDisplay: album.releaseDisplay,
+    }),
+    SHARE_ROW_CSS, SHARE_ROW_JS,
     HYPERFOLLOW_SLUG: album.hyperfollowSlug,
     SIGNUP_HTML, SIGNUP_CSS, SIGNUP_JS,
   });

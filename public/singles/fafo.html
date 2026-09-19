@@ -3,6 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Google Analytics 4, the same property as aunysillyme.com. Loaded async so it
+     never blocks the page; the share row reports taps through gtag as a `share`
+     event (method = platform, item_id = slug). Hosts are allowed in vercel.json. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5SMWW8Z3J1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5SMWW8Z3J1');
+</script>
+
 <title>F A F O by Auny — Lyrics + Stream · EDM</title>
 <meta name="description" content="F A F O — EDM vocal single by Auny. Releasing control as an act of agency, walking through fear rather than waiting for it to pass · Read the full lyrics and stream on Spotify, Apple Music, YouTube. Released January 2, 2026.">
 
@@ -690,6 +701,60 @@ picture { display: contents; }
   .lo-chip .lo-glyph { width: 36px; height: 36px; }
 }
 
+  /* ─── share row (albums + singles) ───────────────────────────────────────
+   Sits centered under the cover art. Same language as the listen row
+   (_listen-row.css): neutral ring at rest, the brand colour arrives only on
+   hover. The ring is half the listen row's 38px, per Auny (AUN-1229), so it
+   carries no caption: the name is in title + aria-label instead. The visible
+   ring is 19px but the hit area is 28px, which with the gap keeps every
+   target's 24px circle clear of its neighbours (WCAG 2.2 target spacing). */
+.share-row {
+  position: relative; z-index: 6;
+  display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
+  gap: 6px 8px;
+}
+.share-row .sh-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
+  color: rgba(255,255,255,0.38);
+  margin-right: 4px;
+}
+.sh-chip {
+  position: relative; width: 28px; height: 28px; padding: 0; margin: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: none; border: 0; cursor: pointer; color: rgba(255,255,255,0.6);
+  text-decoration: none; transition: transform 0.2s ease;
+}
+.sh-chip[hidden] { display: none; }
+.sh-chip::before {
+  content: ''; position: absolute; width: 19px; height: 19px; border-radius: 50%;
+  background: rgba(255,255,255,0.035); border: 1px solid rgba(255,255,255,0.12);
+  box-sizing: border-box;
+  transition: background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+}
+.sh-chip svg { position: relative; width: 10px; height: 10px; display: block; transition: color 0.22s ease; }
+.sh-chip:hover, .sh-chip:focus-visible { color: var(--brand); transform: translateY(-2px); outline: none; }
+.sh-chip:hover::before, .sh-chip:focus-visible::before {
+  background: color-mix(in srgb, var(--brand) 12%, transparent);
+  border-color: var(--brand);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--brand) 45%, transparent);
+}
+.share-row .sh-status {
+  position: absolute; top: 100%; left: 0; right: 0; margin-top: 4px; text-align: center;
+  font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--accent);
+}
+/* Phones: "tell a friend" plus six chips is wider than a 375px column, and a
+   lone chip wrapping onto a second line reads as broken. The label takes its
+   own centered line instead, so the chips always stay together. */
+@media (max-width: 480px) {
+  .share-row .sh-label { flex-basis: 100%; text-align: center; margin: 0 0 2px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sh-chip, .sh-chip::before, .sh-chip svg { transition: none; }
+  .sh-chip:hover, .sh-chip:focus-visible { transform: none; }
+}
+
   /* The character block. Shared by album and single pages, so it carries its own
    class names rather than leaning on .notes-section, which only album pages
    define. Same visual language either way: mono label, handwritten body. */
@@ -786,7 +851,9 @@ picture { display: contents; }
 
 
   /* cover stage */
-  .cover-stage { position: relative; display: flex; align-items: center; justify-content: center; }
+  .cover-stage { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  /* clears the vinyl, which hangs 56px below the cover's bottom-left corner */
+  .cover-stage .share-row { margin-top: 76px; }
   .cover-wrap {
     position: relative;
     width: min(80%, 460px); aspect-ratio: 1/1;
@@ -838,6 +905,7 @@ picture { display: contents; }
     .cover-stage { order: 1; }
     .cover-wrap { width: min(88%, 420px); }
     .vinyl-small { width: 120px; height: 120px; left: -38px; bottom: -38px; }
+    .cover-stage .share-row { margin-top: 92px; }
     .pull-quote { font-size: 22px; }
     .lyrics-section { padding: 20px 20px 60px; }
     .lyrics-body { font-size: 19px; line-height: 1.5; }
@@ -1307,6 +1375,16 @@ picture { display: contents; }
       </svg>
     </div>
    </div>
+   <div class="share-row" aria-label="Share" data-item="fafo">
+      <span class="sh-label">share it</span>
+      <a class="sh-chip" href="https://x.com/intent/post?text=F+A+F+O+by+Auny&amp;url=https%3A%2F%2Fwww.auny.media%2Fsingles%2Ffafo" target="_blank" rel="noopener" data-method="x" style="--brand:#ffffff" title="Share on X" aria-label="Share on X"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14.234 10.162 22.977 0h-2.072l-7.591 8.824L7.251 0H.258l9.168 13.343L.258 24H2.33l8.016-9.318L16.749 24h6.993zm-2.837 3.299-.929-1.329L3.076 1.56h3.182l5.965 8.532.929 1.329 7.754 11.09h-3.182z"/></svg></a>
+      <a class="sh-chip" href="https://www.threads.com/intent/post?text=F+A+F+O+by+Auny+https%3A%2F%2Fwww.auny.media%2Fsingles%2Ffafo" target="_blank" rel="noopener" data-method="threads" style="--brand:#ffffff" title="Share on Threads" aria-label="Share on Threads"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.263 11.097c-.03-3.486-1.92-5.586-5.111-5.586-2.13 0-3.922.963-4.863 2.499l2.062 1.438c.535-.843 1.272-1.543 2.628-1.543 1.528 0 2.318.85 2.544 2.431a15 15 0 0 0-2.236-.173c-4.125 0-6.068 1.867-6.068 4.336s1.943 3.99 4.804 3.99c3.139 0 5.013-2.115 5.781-4.735.798.361 1.348 1.204 1.348 2.47 0 3.387-3.907 5.232-7.22 5.232-4.885 0-8.077-3.207-8.077-8.424 0-6.392 4.223-10.487 9.9-10.487 3.808 0 5.69 1.671 6.97 3.914l2.108-1.475C21.44 2.078 18.331 0 13.663 0 6.227 0 1.168 5.277 1.168 12.934c0 7 4.953 11.066 10.856 11.066 4.878 0 9.809-2.846 9.809-7.716 0-2.545-1.46-4.231-3.569-5.187m-6.33 4.855c-1.077 0-2.026-.512-2.026-1.453 0-1.483 1.822-1.934 3.606-1.934.678 0 1.34.045 1.927.173-.422 1.927-1.671 3.215-3.508 3.214Z"/></svg></a>
+      <a class="sh-chip" href="https://bsky.app/intent/compose?text=F+A+F+O+by+Auny+https%3A%2F%2Fwww.auny.media%2Fsingles%2Ffafo" target="_blank" rel="noopener" data-method="bluesky" style="--brand:#1185FE" title="Share on Bluesky" aria-label="Share on Bluesky"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5.202 2.857C7.954 4.922 10.913 9.11 12 11.358c1.087-2.247 4.046-6.436 6.798-8.501C20.783 1.366 24 .213 24 3.883c0 .732-.42 6.156-.667 7.037-.856 3.061-3.978 3.842-6.755 3.37 4.854.826 6.089 3.562 3.422 6.299-5.065 5.196-7.28-1.304-7.847-2.97-.104-.305-.152-.448-.153-.327 0-.121-.05.022-.153.327-.568 1.666-2.782 8.166-7.847 2.97-2.667-2.737-1.432-5.473 3.422-6.3-2.777.473-5.899-.308-6.755-3.369C.42 10.04 0 4.615 0 3.883c0-3.67 3.217-2.517 5.202-1.026"/></svg></a>
+      <a class="sh-chip" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.auny.media%2Fsingles%2Ffafo" target="_blank" rel="noopener" data-method="facebook" style="--brand:#0866FF" title="Share on Facebook" aria-label="Share on Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg></a>
+      <button class="sh-chip" type="button" data-method="copy" data-copy="https://www.auny.media/singles/fafo" style="--brand:var(--accent)" title="Copy link" aria-label="Copy link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.5-1.5"/></svg></button>
+      <button class="sh-chip" type="button" hidden data-method="native" data-native="https://www.auny.media/singles/fafo" data-title="F A F O" data-text="F A F O by Auny" style="--brand:var(--accent)" title="More ways to share" aria-label="More ways to share"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 8 5-5 5 5"/><path d="M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/></svg></button>
+      <span class="sh-status" role="status" aria-live="polite"></span>
+    </div>
   </div>
 </section>
 
@@ -1444,6 +1522,68 @@ picture { display: contents; }
     } finally {
       btn.disabled = false;
     }
+  });
+})();
+</script>
+
+<script>
+// Share row: Copy writes the page link to the clipboard; More opens the device
+// share sheet and is shown only where the browser has one. Every click fires a
+// GA4 `share` event (method = platform, item_id = slug) IF gtag exists on the
+// page; without it nothing is sent anywhere.
+(function () {
+  var rows = document.querySelectorAll('.share-row');
+  if (!rows.length) return;
+  if (navigator.share) {
+    document.querySelectorAll('.share-row [data-native]').forEach(function (b) { b.hidden = false; });
+  }
+  function track(method, item) {
+    // Analytics must never stand between a visitor and the share itself.
+    try {
+      if (typeof window.gtag === 'function') window.gtag('event', 'share', { method: method, item_id: item });
+    } catch (e) {}
+  }
+  function copyText(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text).catch(function () { return legacyCopy(text); });
+    }
+    return legacyCopy(text);
+  }
+  function legacyCopy(text) {
+    return new Promise(function (ok, fail) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      var done = false;
+      try { done = document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      done ? ok() : fail();
+    });
+  }
+  rows.forEach(function (row) {
+    var status = row.querySelector('.sh-status');
+    var item = row.dataset.item || '';
+    var say = function (msg) {
+      if (!status) return;
+      status.textContent = msg;
+      clearTimeout(say.t);
+      say.t = setTimeout(function () { status.textContent = ''; }, 2400);
+    };
+    row.addEventListener('click', function (e) {
+      var chip = e.target.closest('[data-method]');
+      if (!chip) return;
+      track(chip.dataset.method, item);
+      if (chip.dataset.copy) {
+        copyText(chip.dataset.copy).then(function () { say('link copied'); }, function () { say('copy failed'); });
+      }
+      if (chip.dataset.native) {
+        navigator.share({ title: chip.dataset.title, text: chip.dataset.text, url: chip.dataset.native }).catch(function () {});
+      }
+    });
   });
 })();
 </script>

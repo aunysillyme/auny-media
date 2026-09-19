@@ -4,6 +4,7 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { CHARACTERS } from '../src/data/characters.js';
 import { PLATFORM_ICONS, DISTROKID_GLYPH } from '../src/data/platform-icons.js';
+import { SHARE_ICONS } from '../src/data/share-icons.js';
 import { OG_CARDS } from '../src/data/og-cards.js';
 
 export const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -19,6 +20,9 @@ export const COLOR_CHIPS_HTML = tpl('_color-chips.html');
 export const COLOR_CHIPS_CSS = tpl('_color-chips.css');
 export const LISTEN_CSS = tpl('_listen.css');
 export const LISTEN_ROW_CSS = tpl('_listen-row.css');
+export const SHARE_ROW_CSS = tpl('_share-row.css');
+export const GA_HEAD = tpl('_ga.html');
+export const SHARE_ROW_JS = tpl('_share-row.js');
 export const RECENT_STRIP_HTML = tpl('_recent-strip.html');
 
 // Absolute URL of a page's link-preview card, carrying the content hash written
@@ -290,6 +294,48 @@ export function presaveRowFor(hyperfollowSlug, { label = 'pre-save here' } = {})
     </div>`;
 }
 
+// ─── Share row ────────────────────────────────────────────────────────
+// A small centered row under the cover art that asks visitors to share the
+// page (AUN-1229). Plain share-intent URLs only: no third-party share script,
+// nothing loaded until a visitor clicks. The shared link is the CLEAN canonical
+// URL, never utm_* (Auny, 2026-09-18: the tags showed up in the prefilled
+// post). Attribution is a GA4 `share` event fired from _share-row.js only if
+// gtag exists on the page, plus the platform referrer.
+// Returns '' without a slug or title, the same rule as every other link on the site.
+const SHARE_GLYPHS = {
+  copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.5-1.5"/></svg>',
+  more: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 8 5-5 5 5"/><path d="M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/></svg>',
+};
+
+export function shareRowFor({ slug, title, kind, upcoming = false, releaseDisplay = '' }) {
+  if (!slug || !title) return '';
+  // Built here from kind + slug, never passed in, so no caller can hand it a
+  // query string: the shared link is always the clean canonical page URL.
+  const url = `https://www.auny.media/${kind === 'album' ? 'albums' : 'singles'}/${encodeURIComponent(slug)}`;
+  const text = upcoming
+    ? `${title} by Auny is out ${releaseDisplay}. Pre-save it:`
+    : kind === 'album' ? `${title}, an album by Auny` : `${title} by Auny`;
+  const q = (o) => new URLSearchParams(o).toString();
+  const intents = [
+    ['x', `https://x.com/intent/post?${q({ text, url })}`],
+    // Threads reads the link out of `text`, so it rides inside it.
+    ['threads', `https://www.threads.com/intent/post?${q({ text: `${text} ${url}` })}`],
+    ['bluesky', `https://bsky.app/intent/compose?${q({ text: `${text} ${url}` })}`],
+    ['facebook', `https://www.facebook.com/sharer/sharer.php?${q({ u: url })}`],
+  ];
+  const chips = intents.map(([key, href]) => {
+    const i = SHARE_ICONS[key];
+    return `<a class="sh-chip" href="${esc(href)}" target="_blank" rel="noopener" data-method="${key}" style="--brand:${i.colour}" title="Share on ${esc(i.label)}" aria-label="Share on ${esc(i.label)}">${i.svg}</a>`;
+  });
+  return `<div class="share-row" aria-label="Share" data-item="${esc(slug || '')}">
+      <span class="sh-label">${upcoming ? 'tell a friend' : 'share it'}</span>
+      ${chips.join('\n      ')}
+      <button class="sh-chip" type="button" data-method="copy" data-copy="${esc(url)}" style="--brand:var(--accent)" title="Copy link" aria-label="Copy link">${SHARE_GLYPHS.copy}</button>
+      <button class="sh-chip" type="button" hidden data-method="native" data-native="${esc(url)}" data-title="${esc(title)}" data-text="${esc(text)}" style="--brand:var(--accent)" title="More ways to share" aria-label="More ways to share">${SHARE_GLYPHS.more}</button>
+      <span class="sh-status" role="status" aria-live="polite"></span>
+    </div>`;
+}
+
 export function platformUrls(release) {
   const p = release.platforms || {};
   return PLATFORM_LABELS.map(([key]) => p[key]).filter(Boolean);
@@ -495,8 +541,12 @@ export function writeOut(relPath, content) {
 }
 
 export function render(template, replacements) {
-  return Object.entries(replacements).reduce(
-    (html, [key, val]) => html.replaceAll(`{{${key}}}`, val ?? ''),
+  // GA_HEAD rides along by default so every page built through render() is
+  // measured; a caller can still override it.
+  return Object.entries({ GA_HEAD, ...replacements }).reduce(
+    // A callback, not a string: a string replacement expands `$&`, `$'` and
+    // friends, so a title like "Price $&" would splice the placeholder back in.
+    (html, [key, val]) => html.replaceAll(`{{${key}}}`, () => val ?? ''),
     template
   );
 }

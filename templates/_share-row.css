@@ -1,0 +1,53 @@
+/* ─── share row (albums + singles) ───────────────────────────────────────
+   Sits centered under the cover art. Same language as the listen row
+   (_listen-row.css): neutral ring at rest, the brand colour arrives only on
+   hover. The ring is half the listen row's 38px, per Auny (AUN-1229), so it
+   carries no caption: the name is in title + aria-label instead. The visible
+   ring is 19px but the hit area is 28px, which with the gap keeps every
+   target's 24px circle clear of its neighbours (WCAG 2.2 target spacing). */
+.share-row {
+  position: relative; z-index: 6;
+  display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
+  gap: 6px 8px;
+}
+.share-row .sh-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
+  color: rgba(255,255,255,0.38);
+  margin-right: 4px;
+}
+.sh-chip {
+  position: relative; width: 28px; height: 28px; padding: 0; margin: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: none; border: 0; cursor: pointer; color: rgba(255,255,255,0.6);
+  text-decoration: none; transition: transform 0.2s ease;
+}
+.sh-chip[hidden] { display: none; }
+.sh-chip::before {
+  content: ''; position: absolute; width: 19px; height: 19px; border-radius: 50%;
+  background: rgba(255,255,255,0.035); border: 1px solid rgba(255,255,255,0.12);
+  box-sizing: border-box;
+  transition: background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+}
+.sh-chip svg { position: relative; width: 10px; height: 10px; display: block; transition: color 0.22s ease; }
+.sh-chip:hover, .sh-chip:focus-visible { color: var(--brand); transform: translateY(-2px); outline: none; }
+.sh-chip:hover::before, .sh-chip:focus-visible::before {
+  background: color-mix(in srgb, var(--brand) 12%, transparent);
+  border-color: var(--brand);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--brand) 45%, transparent);
+}
+.share-row .sh-status {
+  position: absolute; top: 100%; left: 0; right: 0; margin-top: 4px; text-align: center;
+  font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--accent);
+}
+/* Phones: "tell a friend" plus six chips is wider than a 375px column, and a
+   lone chip wrapping onto a second line reads as broken. The label takes its
+   own centered line instead, so the chips always stay together. */
+@media (max-width: 480px) {
+  .share-row .sh-label { flex-basis: 100%; text-align: center; margin: 0 0 2px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sh-chip, .sh-chip::before, .sh-chip svg { transition: none; }
+  .sh-chip:hover, .sh-chip:focus-visible { transform: none; }
+}

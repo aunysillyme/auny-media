@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{{GA_HEAD}}
 <title>{{TITLE}} by Auny — Lyrics + Stream · {{GENRE_HEAD}}</title>
 <meta name="description" content="{{TITLE}} — {{GENRE_HEAD}} vocal single by Auny. {{THEMES}} · Read the full lyrics and stream on Spotify, Apple Music, YouTube. {{RELEASE_SENTENCE}}">
 
@@ -209,11 +210,14 @@
 
   {{COLOR_CHIPS_CSS}}
   {{LISTEN_ROW_CSS}}
+  {{SHARE_ROW_CSS}}
   {{CHARACTER_CSS}}
   {{RECENT_STRIP_CSS}}
 
   /* cover stage */
-  .cover-stage { position: relative; display: flex; align-items: center; justify-content: center; }
+  .cover-stage { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  /* clears the vinyl, which hangs 56px below the cover's bottom-left corner */
+  .cover-stage .share-row { margin-top: 76px; }
   .cover-wrap {
     position: relative;
     width: min(80%, 460px); aspect-ratio: 1/1;
@@ -265,6 +269,7 @@
     .cover-stage { order: 1; }
     .cover-wrap { width: min(88%, 420px); }
     .vinyl-small { width: 120px; height: 120px; left: -38px; bottom: -38px; }
+    .cover-stage .share-row { margin-top: 92px; }
     .pull-quote { font-size: 22px; }
     .lyrics-section { padding: 20px 20px 60px; }
     .lyrics-body { font-size: 19px; line-height: 1.5; }
@@ -364,6 +369,7 @@
       </svg>
     </div>
    </div>
+   {{SHARE_ROW}}
   </div>
 </section>
 
@@ -385,6 +391,7 @@
 {{FOOTER_HTML}}
 
 {{SIGNUP_JS}}
+{{SHARE_ROW_JS}}
 
 </body>
 </html>
