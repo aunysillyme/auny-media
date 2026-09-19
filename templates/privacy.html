@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{{GA_HEAD}}
+<title>Privacy · auny.media</title>
+<meta name="description" content="What auny.media collects, why, and how to reach me about it." />
+<link rel="canonical" href="https://www.auny.media/privacy">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png" />
+<link rel="icon" type="image/png" sizes="192x192" href="/images/favicon-192.png" />
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
+<link rel="preload" href="/fonts/outfit-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/fonts/fonts.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --accent: #1E90FF; --accent-rgb: 30,144,255; --nav-accent: #1E90FF;
+    --bg: #030308; --text: #fff; --text-soft: rgba(255,255,255,0.84); --text-mute: rgba(255,255,255,0.55);
+  }
+{{NAV_CSS}}
+{{FOOTER_CSS}}
+  html, body { min-height: 100%; background: var(--bg); color: var(--text); font-family: 'Space Mono', monospace; }
+  .policy { position: relative; z-index: 2; max-width: 680px; margin: 0 auto; padding: 120px 24px 80px; }
+  .policy .label { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); opacity: 0.75; margin-bottom: 12px; }
+  .policy h1 { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: clamp(40px, 7vw, 64px); line-height: 0.95; letter-spacing: -1px; margin-bottom: 14px; }
+  .policy .updated { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-mute); margin-bottom: 40px; }
+  .policy h2 {
+    font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--accent); margin: 36px 0 12px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .policy p, .policy li { font-family: 'Outfit', sans-serif; font-size: 16px; line-height: 1.65; color: var(--text-soft); }
+  .policy p + p { margin-top: 12px; }
+  .policy ul { padding-left: 20px; display: grid; gap: 8px; margin-top: 10px; }
+  .policy strong { color: var(--text); font-weight: 700; }
+  .policy a { color: var(--accent); }
+</style>
+</head>
+<body>
+{{NAV}}
+
+<main class="policy">
+  <p class="label">auny.media</p>
+  <h1>Privacy</h1>
+  <p class="updated">Last updated September 18, 2026</p>
+
+  <p>This is the music site of Auny, run by Auny LLC, a New York limited liability company. "I" and "me" below means Auny LLC. This page covers auny.media only. My business site has its own policy at <a href="https://www.aunysillyme.com/privacy-policy">aunysillyme.com/privacy-policy</a>.</p>
+
+  <h2>What I collect</h2>
+  <ul>
+    <li><strong>Analytics.</strong> Google Analytics 4 records which pages are visited, roughly where visitors are, what device they use, and when a share button is tapped (which button, on which song). It sets cookies to tell visits apart.</li>
+    <li><strong>Cloudflare Web Analytics.</strong> Counts page views without cookies and without the part of a link after the "?".</li>
+    <li><strong>Your email, if you sign up.</strong> The sign-up form sends your email address to my newsletter provider, beehiiv, so I can send you updates. Nothing else is asked for.</li>
+    <li><strong>Server logs.</strong> The site is hosted on Vercel behind Cloudflare. Like any website, they process your IP address and browser details to deliver pages and keep the site secure.</li>
+  </ul>
+
+  <h2>Things that only happen when you tap them</h2>
+  <ul>
+    <li><strong>The Spotify player</strong> loads from Spotify only after you press play. Spotify's own privacy policy applies from then on.</li>
+    <li><strong>The share buttons</strong> (X, Threads, Bluesky, Facebook) are plain links. Nothing from those services loads on this site; tapping one opens their site, and their policies apply there.</li>
+    <li><strong>Streaming links</strong> take you to Spotify, Apple Music and the rest. Their policies apply once you land.</li>
+  </ul>
+
+  <h2>Ads</h2>
+  <p>If you reach the site through one of my ads, you may pass through a short redirect page that runs X's (Twitter's) ad pixel, so I can tell whether the ad worked. That pixel uses cookies and shares limited data with X. It runs only on those redirect pages, not on the rest of the site.</p>
+
+  <h2>What I don't do</h2>
+  <p>I don't sell your data, and I don't use it for anything beyond running this site, understanding what people listen to and share, and sending updates to people who asked for them.</p>
+
+  <h2>Your choices</h2>
+  <ul>
+    <li>Block or delete cookies in your browser, or use an extension that blocks analytics. The music plays the same either way.</li>
+    <li>Unsubscribe from updates any time with the link in any email.</li>
+    <li>Ask me what I hold about you, or ask me to delete it.</li>
+  </ul>
+
+  <h2>Contact</h2>
+  <p>Email <a href="mailto:auny@aunysillyme.com">auny@aunysillyme.com</a> about anything on this page.</p>
+</main>
+
+{{FOOTER_HTML}}
+</body>
+</html>

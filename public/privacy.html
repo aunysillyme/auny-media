@@ -14,25 +14,20 @@
   gtag('config', 'G-5SMWW8Z3J1');
 </script>
 
-<!-- HELD: scaffold not yet launched — keep noindex until real pieces land. -->
-<meta name="robots" content="noindex, nofollow">
-<title>Poetry — Auny · Spoken Word, Video &amp; Verse</title>
-<meta name="description" content="Spoken-word poetry by Auny — video and verse. A night sky of little spoken things.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Poetry — Auny">
-<meta property="og:description" content="Spoken word · video · verse.">
-<meta property="og:url" content="https://www.auny.media/poetry">
-<link rel="canonical" href="https://www.auny.media/poetry">
-<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png">
-<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<title>Privacy · auny.media</title>
+<meta name="description" content="What auny.media collects, why, and how to reach me about it." />
+<link rel="canonical" href="https://www.auny.media/privacy">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png" />
+<link rel="icon" type="image/png" sizes="192x192" href="/images/favicon-192.png" />
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
 <link rel="preload" href="/fonts/outfit-700.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/fonts/space-mono-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/fonts/fonts.css">
 <style>
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  :root{--accent:#9BB4DE;--accent-rgb:155,180,222;--nav-accent:#9BB4DE}
-  html,body{min-height:100%;background:radial-gradient(120% 100% at 70% 8%,#0b1020 0%,#050509 55%,#040407 100%);color:#fff;font-family:'Space Mono',monospace;overflow-x:hidden}
-  body::after{content:'';position:fixed;inset:0;z-index:60;pointer-events:none;background-image:repeating-linear-gradient(to bottom,transparent 0 3px,rgba(0,0,0,.10) 3px 4px);opacity:.12}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --accent: #1E90FF; --accent-rgb: 30,144,255; --nav-accent: #1E90FF;
+    --bg: #030308; --text: #fff; --text-soft: rgba(255,255,255,0.84); --text-mute: rgba(255,255,255,0.55);
+  }
 /* Global site nav — included on every static page. */
 /* Responsive cover <picture> wrappers shouldn't add a layout box —
    let the inner <img> drive sizing exactly as a bare <img> did. */
@@ -152,34 +147,7 @@ picture { display: contents; }
   .site-nav .brand { font-size: 22px; }
 }
 
-  .moon{position:fixed;top:-130px;right:-90px;width:440px;height:440px;border-radius:50%;background:radial-gradient(closest-side,rgba(200,215,245,.16),rgba(155,180,222,.05),transparent);z-index:0;pointer-events:none}
-  .stars span{position:fixed;width:2px;height:2px;border-radius:50%;background:rgba(255,255,255,.5);z-index:0}
-  .ptitle-block{position:relative;z-index:10;max-width:1320px;margin:0 auto;padding:70px 48px 0}
-  .ptitle-block .eyebrow{font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(--accent);opacity:.85;margin-bottom:12px}
-  .ptitle-block h1{font-family:'Outfit',sans-serif;font-weight:700;font-size:clamp(56px,8vw,118px);line-height:.86;letter-spacing:-3px;text-shadow:0 0 80px rgba(var(--accent-rgb),.4)}
-  .ptitle-block .lede{font-family:'Patrick Hand',cursive;font-size:clamp(18px,2vw,24px);color:rgba(255,255,255,.72);margin-top:14px;max-width:320px}
-  /* the field */
-  .field{position:relative;z-index:5;height:min(72vh,760px);max-width:1320px;margin:0 auto;padding:0 48px}
-  .threads{position:absolute;inset:0 48px;width:calc(100% - 96px);height:100%;z-index:4;pointer-events:none}
-  .threads line{stroke:rgba(var(--accent-rgb),.26);stroke-width:.12;stroke-dasharray:.6 .9;vector-effect:non-scaling-stroke}
-  .node{position:absolute;z-index:6;text-decoration:none;color:inherit;transform:translate(-50%,-50%);text-align:center;width:180px}
-  .node .dot{width:66px;height:66px;border-radius:50%;margin:0 auto 10px;overflow:hidden;position:relative;border:1.5px solid rgba(var(--pa-rgb),.7);
-    box-shadow:0 0 26px rgba(var(--pa-rgb),.45);transition:transform .3s,box-shadow .3s}
-  .node .dot img{width:100%;height:100%;object-fit:cover;filter:saturate(.8) brightness(.9)}
-  .node .dot::after{content:'';position:absolute;inset:0;background:radial-gradient(closest-side,transparent 55%,rgba(5,5,12,.55))}
-  .node:hover .dot{transform:scale(1.12);box-shadow:0 0 42px rgba(var(--pa-rgb),.85)}
-  .node .t{font-family:'Outfit',sans-serif;font-weight:700;font-size:16px;line-height:1.05}
-  .node .v{font-family:'Patrick Hand',cursive;font-size:14px;color:rgba(255,255,255,.6);margin-top:3px}
-  .node .d{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--pa);margin-top:5px}
-  .moth{position:absolute;z-index:7;color:rgba(255,255,255,.5);pointer-events:none}
-  .hint{position:relative;z-index:10;max-width:1320px;margin:0 auto;padding:8px 48px 40px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.4)}
-  @media (max-width:860px){
-    .field{height:auto;display:flex;flex-direction:column;gap:30px;padding:30px 28px}
-    .threads,.moth{display:none}
-    .node{position:relative!important;left:auto!important;top:auto!important;transform:none;width:100%;display:flex;align-items:center;gap:16px;text-align:left}
-    .node .dot{margin:0}
-  }
-  /* ─── Global site footer ──────────────────────────────────────────────
+/* ─── Global site footer ──────────────────────────────────────────────
    Single footer used on every page. Platform links row + copyright.
    Top border adopts the page accent so it tunes to whatever color the
    page is wearing today. */
@@ -212,12 +180,23 @@ picture { display: contents; }
   .site-footer .footer-links { gap: 14px; font-size: 10px; }
 }
 
+  html, body { min-height: 100%; background: var(--bg); color: var(--text); font-family: 'Space Mono', monospace; }
+  .policy { position: relative; z-index: 2; max-width: 680px; margin: 0 auto; padding: 120px 24px 80px; }
+  .policy .label { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); opacity: 0.75; margin-bottom: 12px; }
+  .policy h1 { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: clamp(40px, 7vw, 64px); line-height: 0.95; letter-spacing: -1px; margin-bottom: 14px; }
+  .policy .updated { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-mute); margin-bottom: 40px; }
+  .policy h2 {
+    font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--accent); margin: 36px 0 12px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .policy p, .policy li { font-family: 'Outfit', sans-serif; font-size: 16px; line-height: 1.65; color: var(--text-soft); }
+  .policy p + p { margin-top: 12px; }
+  .policy ul { padding-left: 20px; display: grid; gap: 8px; margin-top: 10px; }
+  .policy strong { color: var(--text); font-weight: 700; }
+  .policy a { color: var(--accent); }
 </style>
 </head>
 <body>
-<div class="moon"></div>
-<div class="stars"><span style="top:18%;left:30%"></span><span style="top:26%;left:62%"></span><span style="top:44%;left:20%"></span><span style="top:60%;left:48%"></span><span style="top:72%;left:80%"></span><span style="top:34%;left:88%"></span><span style="top:80%;left:33%"></span></div>
-
 <canvas id="atmosphere-canvas" aria-hidden="true"></canvas>
 <div id="cursor-spotlight" aria-hidden="true"></div>
 <nav class="site-nav" aria-label="Primary">
@@ -537,37 +516,44 @@ picture { display: contents; }
 </script>
 
 
-<header class="ptitle-block">
-  <p class="eyebrow">✦ &nbsp; spoken word · video · verse</p>
-  <h1>Poetry</h1>
-  <p class="lede">a night sky of little spoken things. follow the light.</p>
-</header>
+<main class="policy">
+  <p class="label">auny.media</p>
+  <h1>Privacy</h1>
+  <p class="updated">Last updated September 18, 2026</p>
 
-<main class="field">
-  <svg class="threads" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><line x1="56" y1="38" x2="78" y2="30"/><line x1="78" y1="30" x2="50" y2="62"/></svg>
-  <a class="node" style="left:56%;top:38%;--pa:#8FB3D6;--pa-rgb:143,179,214" href="/poetry/the-void-speaks-back">
-      <div class="dot"><img src="/album-art/singles/the-void.jpg" alt="The Void Speaks Back still" loading="lazy"></div>
-      <div class="t">The Void Speaks Back</div>
-      <div class="v">"I called into the dark…"</div>
-      <div class="d">2:14 · video</div>
-    </a>
-  <a class="node" style="left:78%;top:30%;--pa:#D9A441;--pa-rgb:217,164,65" href="/poetry/letters-i-never-sent">
-      <div class="dot"><img src="/album-art/singles/from-the-ashes.jpg" alt="Letters I Never Sent still" loading="lazy"></div>
-      <div class="t">Letters I Never Sent</div>
-      <div class="v">"If silence is a kind…"</div>
-      <div class="d">1:48 · audio</div>
-    </a>
-  <a class="node" style="left:50%;top:62%;--pa:#C29BD6;--pa-rgb:194,155,214" href="/poetry/how-to-disappear">
-      <div class="dot"><img src="/album-art/singles/escape.jpg" alt="How to Disappear still" loading="lazy"></div>
-      <div class="t">How to Disappear</div>
-      <div class="v">"I got so good at…"</div>
-      <div class="d">2:35 · video</div>
-    </a>
-  <span class="moth" style="left:44%;top:18%">✦</span>
-  <span class="moth" style="left:66%;top:82%;font-size:13px">✦</span>
-  <span class="moth" style="left:86%;top:46%;font-size:15px">✦</span>
+  <p>This is the music site of Auny, run by Auny LLC, a New York limited liability company. "I" and "me" below means Auny LLC. This page covers auny.media only. My business site has its own policy at <a href="https://www.aunysillyme.com/privacy-policy">aunysillyme.com/privacy-policy</a>.</p>
+
+  <h2>What I collect</h2>
+  <ul>
+    <li><strong>Analytics.</strong> Google Analytics 4 records which pages are visited, roughly where visitors are, what device they use, and when a share button is tapped (which button, on which song). It sets cookies to tell visits apart.</li>
+    <li><strong>Cloudflare Web Analytics.</strong> Counts page views without cookies and without the part of a link after the "?".</li>
+    <li><strong>Your email, if you sign up.</strong> The sign-up form sends your email address to my newsletter provider, beehiiv, so I can send you updates. Nothing else is asked for.</li>
+    <li><strong>Server logs.</strong> The site is hosted on Vercel behind Cloudflare. Like any website, they process your IP address and browser details to deliver pages and keep the site secure.</li>
+  </ul>
+
+  <h2>Things that only happen when you tap them</h2>
+  <ul>
+    <li><strong>The Spotify player</strong> loads from Spotify only after you press play. Spotify's own privacy policy applies from then on.</li>
+    <li><strong>The share buttons</strong> (X, Threads, Bluesky, Facebook) are plain links. Nothing from those services loads on this site; tapping one opens their site, and their policies apply there.</li>
+    <li><strong>Streaming links</strong> take you to Spotify, Apple Music and the rest. Their policies apply once you land.</li>
+  </ul>
+
+  <h2>Ads</h2>
+  <p>If you reach the site through one of my ads, you may pass through a short redirect page that runs X's (Twitter's) ad pixel, so I can tell whether the ad worked. That pixel uses cookies and shares limited data with X. It runs only on those redirect pages, not on the rest of the site.</p>
+
+  <h2>What I don't do</h2>
+  <p>I don't sell your data, and I don't use it for anything beyond running this site, understanding what people listen to and share, and sending updates to people who asked for them.</p>
+
+  <h2>Your choices</h2>
+  <ul>
+    <li>Block or delete cookies in your browser, or use an extension that blocks analytics. The music plays the same either way.</li>
+    <li>Unsubscribe from updates any time with the link in any email.</li>
+    <li>Ask me what I hold about you, or ask me to delete it.</li>
+  </ul>
+
+  <h2>Contact</h2>
+  <p>Email <a href="mailto:auny@aunysillyme.com">auny@aunysillyme.com</a> about anything on this page.</p>
 </main>
-<p class="hint">click a light to enter</p>
 
 <!-- Global site footer. Identical on every page (home, singles, albums,
      list pages, links). Per-release info is not in the footer — release

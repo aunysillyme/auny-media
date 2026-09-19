@@ -216,3 +216,13 @@ const linksHtml = render(LINKS_TPL, {
 });
 writeOut('links.html', linksHtml);
 console.log('✓ generated /links → public/links.html');
+
+// /privacy (templates/privacy.html → public/privacy.html). One static policy
+// page for the whole site; its copy lives in the template so it reads as copy.
+writeOut('privacy.html', render(tpl('privacy.html'), {
+  NAV: navFor('privacy'),
+  NAV_CSS,
+  FOOTER_HTML,
+  FOOTER_CSS,
+}));
+console.log('✓ generated /privacy → public/privacy.html');
